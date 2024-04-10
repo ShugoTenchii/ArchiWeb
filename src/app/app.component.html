@@ -9,8 +9,7 @@
               <li><a *ngIf="isLogin && isadmin" href="/users" class="nav-link px-2 text-secondary">Les utilisateurs</a></li>
               <li><a href="/materials" class="nav-link px-2 text-white">Les materiels</a></li>
               <li><a *ngIf="isLogin && isadmin" href="/all-request" class="nav-link px-2 text-white">Les requetes</a></li>
-              <li><a *ngIf="isLogin && !isadmin" href="/add-request" class="nav-link px-2 text-white">Demande</a></li>
-              <!-- <li><a *ngIf="isLoggedIn() && !isAdmin()" href="/my-request" class="nav-link px-2 text-white">Mes materiaux</a></li> -->
+              <li><a *ngIf="isLogin && !isadmin" href="/my-request" class="nav-link px-2 text-white">Mes materiaux</a></li>
           </ul>
           
           <div class="text-end">

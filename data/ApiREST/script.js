@@ -326,8 +326,7 @@ app.get('/materials/requested', async (req, res) => {
         const database = client.db('ProjectDB');
         const collection = database.collection('materiel');
         
-        // Requête pour trouver tous les matériaux avec le statut 'request' ou 'true'
-        const materials = await collection.find({ $or: [{ status: 'request' }, { status: 'true' }] }).toArray();
+        const materials = await collection.find({ $or: [{ status: 'requested' }] }).toArray();
         
         res.status(200).json(materials);
     } catch (error) {
@@ -336,23 +335,18 @@ app.get('/materials/requested', async (req, res) => {
     }
 });
 
-app.post('/materials/request', async (req, res) => {
+app.put('/materials/request/:_id', async (req, res) => {
     try {
         const database = client.db('ProjectDB');
         const collection = database.collection('materiel');
         
-        // Extraire les données du corps de la requête
-        const { materialId, userEmail } = req.query;
+        const materialId = req.params._id;
 
-        // Créer un objet Material à mettre à jour avec l'utilisateur attribué
-        const updatedMaterial = {
-            assigned_to: userEmail, 
-            status: 'requested' 
-        };
-        
+        const { name, type, assigned_to, status, room } = req.query;
+        const updatedMaterial = new Material(name, type, assigned_to, 'requested', room);
+
         // Mettre à jour le document matériel dans la base de données
-        const result = await collection.updateOne({ _id: ObjectId(materialId) }, { $set: updatedMaterial });
-        
+        const result = await collection.updateOne({ _id: new ObjectId(materialId) }, { $set: updatedMaterial });
         res.status(200).json({ message: "Demande d'attribution envoyée avec succès" });
     } catch (error) {
         console.error("Error requesting material:", error);
@@ -361,19 +355,41 @@ app.post('/materials/request', async (req, res) => {
 });
 
 // Route pour demander à rendre un matériel 
-app.post('/materials/return', async (req, res) => {
+app.put('/materials/stop/:_id', async (req, res) => {
     try {
         const database = client.db('ProjectDB');
         const collection = database.collection('materiel');
 
-        // Extraire les données du corps de la requête
-        const { materialId, userEmail } = req.body;
-        const result = await collection.updateOne({ _id: ObjectId(materialId) }, { $set: { assigned_to: `${userEmail}`,status: 'return' } });
-        
+        const materialId = req.params._id;
+
+        const { name, type, assigned_to, status, room } = req.query;
+        const updatedMaterial = new Material(name, type, 'none', 'false', room);
+
+        const result = await collection.updateOne({ _id: new ObjectId(materialId) }, { $set: updatedMaterial });
         res.status(200).json({ message: "Demande de retour envoyée avec succès" });
     } catch (error) {
         console.error("Error returning material:", error);
         res.status(500).json({ message: "Error returning material" });
+    }
+});
+
+app.put('/materials/return/:_id', async (req, res) => {
+    try {
+        const database = client.db('ProjectDB');
+        const collection = database.collection('materiel');
+
+        const materialId = req.params._id;
+
+        const { name, type, assigned_to, status, room } = req.query;
+        const updatedMaterial = new Material(name, type, assigned_to, 'return', room);
+        
+        // Mettre à jour le statut du matériel avec l'ID correspondant
+        const result = await collection.updateOne({ _id: new ObjectId(materialId) }, { $set: updatedMaterial });
+        
+        res.status(200).json({ message: "Retour de matériel accepté avec succès" });
+    } catch (error) {
+        console.error("Error accepting material return:", error);
+        res.status(500).json({ message: "Error accepting material return" });
     }
 });
 
@@ -382,10 +398,13 @@ app.put('/materials/assign/:_id', async (req, res) => {
     try {
         const database = client.db('ProjectDB');
         const collection = database.collection('materiel');
-        const materialId = req.params.id;
+        const materialId = req.params._id;
+
+        const { name, type, assigned_to, status, room } = req.query;
+        const updatedMaterial = new Material(name, type, assigned_to, 'true', room);
         
         // Mettre à jour le statut du matériel avec l'ID correspondant
-        const result = await collection.updateOne({ _id: ObjectId(materialId) }, { $set: { status: 'true' } });
+        const result = await collection.updateOne({ _id: new ObjectId(materialId) }, { $set: updatedMaterial });
         
         res.status(200).json({ message: "Demande d'attribution acceptée avec succès" });
     } catch (error) {
@@ -394,22 +413,6 @@ app.put('/materials/assign/:_id', async (req, res) => {
     }
 });
 
-// Route pour retour, refuser 
-app.put('/materials/return/:_id', async (req, res) => {
-    try {
-        const database = client.db('ProjectDB');
-        const collection = database.collection('materiel');
-        const materialId = req.params.id;
-        
-        // Mettre à jour le statut du matériel avec l'ID correspondant
-        const result = await collection.updateOne({ _id: ObjectId(materialId) }, { $set: { assigned_to: 'none',status: 'false' } });
-        
-        res.status(200).json({ message: "Retour de matériel accepté avec succès" });
-    } catch (error) {
-        console.error("Error accepting material return:", error);
-        res.status(500).json({ message: "Error accepting material return" });
-    }
-});
 
 
 const PORT = process.env.PORT || 8888;

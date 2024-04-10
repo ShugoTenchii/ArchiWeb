@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { Router } from '@angular/router';
+import {AppComponent} from '../../app.component';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent {
     password: ''
   };
 
-  constructor(private userService: UserService, private localStorage: LocalStorageService, private router: Router) { }
+  constructor(private userService: UserService, private localStorage: LocalStorageService, private router: Router, private app: AppComponent) { }
 
   login() {
     this.loginData.email = this.loginData.email.toLowerCase();
@@ -25,6 +26,7 @@ export class LoginComponent {
           console.log(response.token);
           this.localStorage.setItem('token', response.token);
           this.router.navigateByUrl('/');
+          window.location.reload();
         }
       })
     );

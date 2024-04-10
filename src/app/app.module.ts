@@ -15,7 +15,7 @@ import { UpdateUserComponent } from './components/update-user/update-user.compon
 import { UpdateMaterialComponent } from './components/update-material/update-material.component';
 import { AddMaterialComponent } from './components/add-material/add-material.component';
 import { AllRequestComponent } from './components/all-request/all-request.component';
-import { AddRequestComponent } from './components/add-request/add-request.component';
+import { MyComponentComponent } from './components/my-component/my-component.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,7 @@ import { AddRequestComponent } from './components/add-request/add-request.compon
     UpdateMaterialComponent,
     AddMaterialComponent,
     AllRequestComponent,
-    AddRequestComponent
+    MyComponentComponent
   ],
   imports: [
     BrowserModule,

@@ -51,6 +51,11 @@ export class AppComponent  {
 
   logout(): void {
     this.localStorage.removeItem('token');
+    this.reload();
+  }
+
+  reload(): void{
+    window.location.reload();
   }
 
   // Fonction pour vérifier si l'utilisateur est administrateur

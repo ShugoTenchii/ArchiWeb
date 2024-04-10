@@ -63,40 +63,53 @@ export class MaterialService {
   }
 
    // Demander à attribuer un matériel via l'API REST
-   requestMaterial(materialId: string, userEmail: string): Observable<any> {
+   requestMaterial(material: Material, userEmail: string): Observable<any> {
     const queryParams = new URLSearchParams({ 
-      email: userEmail,
-      _id: materialId,
+      name: material.name,
+      type: material.type,
+      assigned_to: userEmail,
+      room: material.room,
+      status: "requested",
     }).toString();
-    const url = `${this.baseUrl}/materials/request?${queryParams}`;
-    return this.http.post<any>(url, {});
-  }
-
-  // Demander à rendre un matériel via l'API REST
-  returnMaterial(materialId: string, userEmail: string): Observable<any> {
-    const queryParams = new URLSearchParams({ 
-      email: userEmail,
-      _id: materialId,
-    }).toString();
-    const url = `${this.baseUrl}/materials/return?${queryParams}`;
-    return this.http.post<any>(url, {});
-  }
-
-  // Accepter une demande d'attribution via l'API REST
-  acceptMaterialAssignment(materialId: string): Observable<any> {
-    const queryParams = new URLSearchParams({ 
-      _id: materialId,
-    }).toString();
-    const url = `${this.baseUrl}/materials/assign?${queryParams}`;
+    const url = `${this.baseUrl}/materials/request/${material._id}?${queryParams}`;
+    console.log(url);
     return this.http.put<any>(url, {});
   }
 
-  // Accepter le retour d'un matériel via l'API REST
-  acceptMaterialReturn(materialId: string): Observable<any> {
+  stopMaterial(material: Material, userEmail: string): Observable<any> {
     const queryParams = new URLSearchParams({ 
-      _id: materialId,
+      name: material.name,
+      type: material.type,
+      assigned_to: userEmail,
+      room: material.room,
+      status: "false",
     }).toString();
-    const url = `${this.baseUrl}/materials/return?${queryParams}`;
+    const url = `${this.baseUrl}/materials/stop/${material._id}?${queryParams}`;
+    return this.http.put<any>(url, {});
+  }
+
+  rendreMaterial(material: Material): Observable<any> {
+    const queryParams = new URLSearchParams({ 
+      name: material.name,
+      type: material.type,
+      assigned_to: material.assigned_to,
+      room: material.room,
+      status: "return",
+    }).toString();
+    const url = `${this.baseUrl}/materials/stop/${material._id}?${queryParams}`;
+    return this.http.put<any>(url, {});
+  }
+
+  // Accepter une demande d'attribution via l'API REST
+  acceptMaterialAssignment(material: Material): Observable<any> {
+    const queryParams = new URLSearchParams({ 
+      name: material.name,
+      type: material.type,
+      assigned_to:  material.assigned_to,
+      room: material.room,
+      status: "true",
+    }).toString();
+    const url = `${this.baseUrl}/materials/assign/${material._id}?${queryParams}`;
     return this.http.put<any>(url, {});
   }
 }

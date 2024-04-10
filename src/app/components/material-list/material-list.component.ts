@@ -139,4 +139,36 @@ export class MaterialListComponent {
 
     return false; // Si le token est absent, invalide ou si l'utilisateur n'est pas administrateur, retourner false
   }
+
+  addRequest(m: Material){
+    if(this.email && m){
+    this.materialService.requestMaterial(m, this.email).pipe(
+      catchError(error => {
+        console.log('Error request:', error);
+        return EMPTY;
+      })
+    ).subscribe(() => {
+      console.log('User request successfully!');
+      window.location.reload();
+    });
+    }
+  }
+
+  cancelRequest(m: Material){
+    if(this.email && m){
+      this.materialService.stopMaterial(m, this.email).pipe(
+        catchError(error => {
+          console.log('Error return:', error);
+          return EMPTY;
+        })
+      ).subscribe(() => {
+        console.log('User return successfully!');
+        window.location.reload();
+      });
+      }
+  }
+
+  rendre(m: Material){
+    this.cancelRequest(m);
+  }
 }
