@@ -6,17 +6,17 @@
           </a>
 
           <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a *ngIf="isLoggedIn() && isAdmin()" href="/users" class="nav-link px-2 text-secondary">Les utilisateurs</a></li>
+              <li><a *ngIf="isLogin && isadmin" href="/users" class="nav-link px-2 text-secondary">Les utilisateurs</a></li>
               <li><a href="/materials" class="nav-link px-2 text-white">Les materiels</a></li>
-              <li><a *ngIf="isLoggedIn() && isAdmin()" href="/all-request" class="nav-link px-2 text-white">Les requetes</a></li>
-              <li><a *ngIf="isLoggedIn() && !isAdmin()" href="/add-request" class="nav-link px-2 text-white">Demande</a></li>
+              <li><a *ngIf="isLogin && isadmin" href="/all-request" class="nav-link px-2 text-white">Les requetes</a></li>
+              <li><a *ngIf="isLogin && !isadmin" href="/add-request" class="nav-link px-2 text-white">Demande</a></li>
               <!-- <li><a *ngIf="isLoggedIn() && !isAdmin()" href="/my-request" class="nav-link px-2 text-white">Mes materiaux</a></li> -->
           </ul>
           
           <div class="text-end">
-              <button *ngIf="!isLoggedIn()" type="button" class="btn btn-outline-light me-2" (click)="login();">Connexion</button>
-              <button *ngIf="!isLoggedIn()" type="button" class="btn btn-warning" (click)="register();">Inscription</button>
-              <button *ngIf="isLoggedIn()" type="button" class="btn btn-outline-light me-2" (click)="logout();">Déconnexion</button>
+              <button *ngIf="!isLogin" type="button" class="btn btn-outline-light me-2" (click)="login();">Connexion</button>
+              <button *ngIf="!isLogin" type="button" class="btn btn-warning" (click)="register();">Inscription</button>
+              <button *ngIf="isLogin" type="button" class="btn btn-outline-light me-2" (click)="logout();">Déconnexion</button>
           </div>
       </div>
   </div>

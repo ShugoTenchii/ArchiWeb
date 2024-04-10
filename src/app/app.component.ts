@@ -9,8 +9,15 @@ import { LocalStorageService } from './services/local-storage.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent  {
   title = 'ArchiWeb';
+  isLogin = false;
+  isadmin = false;
+
+  ngOnInit(): void {
+    this.isLogin = this.isLoggedIn();
+    this.isadmin = this.isAdmin();
+  }
 
   constructor(private router: Router, private userService: UserService, private jwtHelper: JwtHelperService, private localStorage: LocalStorageService) { }
 

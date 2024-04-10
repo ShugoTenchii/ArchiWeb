@@ -15,11 +15,15 @@ import { LocalStorageService } from '../../services/local-storage.service';
 })
 export class AllRequestComponent {
   materials: Material[] = [];
+  isLogin = false;
+  isadmin = false;
 
   constructor(private materialService: MaterialService, private router: Router, private jwtHelper: JwtHelperService, private localStorage: LocalStorageService) { }
 
   ngOnInit(): void {
     this.loadMaterials();
+    this.isLogin = this.isLoggedIn();
+    this.isadmin = this.isAdmin();
   }
 
   isLoggedIn(): boolean {
@@ -41,6 +45,26 @@ export class AllRequestComponent {
     return false; // Si le token est absent ou invalide, retourner false
   }
 
+  isAdmin(): boolean {
+    const token = this.localStorage.getItem('token');
+    if (token) {
+      try {
+        // Utiliser JwtHelperService pour décoder le token JWT
+        const tokenInfo = this.jwtHelper.decodeToken(token);
+
+        // Vérifier si l'utilisateur a le rôle d'administrateur
+        if (tokenInfo && tokenInfo.role === 'admin') {
+          return true; // Si l'utilisateur est administrateur, retourner true
+        }
+      } catch (error) {
+        console.error("Error decoding JWT:", error);
+        return false; // En cas d'erreur lors du décodage, retourner false
+      }
+    }
+
+    return false; // Si le token est absent, invalide ou si l'utilisateur n'est pas administrateur, retourner false
+  }
+  
   loadMaterials() {
     this.materialService.getRequest().pipe(
       catchError(error => {

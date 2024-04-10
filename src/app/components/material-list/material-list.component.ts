@@ -15,6 +15,8 @@ import { LocalStorageService } from '../../services/local-storage.service';
 export class MaterialListComponent {
   materials: Material[] = [];
   status: string[] = [];
+  isLogin = false;
+  isadmin = false;
 
   constructor(private materialService: MaterialService, private router: Router, private jwtHelper: JwtHelperService, private localStorage: LocalStorageService) { }
 
@@ -23,6 +25,8 @@ export class MaterialListComponent {
   ngOnInit(): void {
     this.loadMaterials();
     this.email = this.getId();
+    this.isLogin = this.isLoggedIn();
+    this.isadmin = this.isAdmin();
     for (const m of this.materials) {
       this.status.push(this.getStatus(m._id));
     }

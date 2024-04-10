@@ -19,9 +19,8 @@
       <td>{{ material.assigned_to }}</td>
       <td>{{ material.status }}</td>
       <td>
-        <button *ngIf="isLoggedIn()" class="btn btn-danger" (click)="agreeMaterial(material._id)">Accepter</button>
-        <button *ngIf="isLoggedIn()" class="btn btn-primary" (click)="desagreeMaterial(material._id)">Refuser</button>
-        <button *ngIf="isLoggedIn()" class="btn btn-danger" (click)="agreeMaterial(material._id)">Accepter</button>
+        <button *ngIf="isLoggedIn()" class="btn btn-primary" (click)="agreeMaterial(material._id)">Accepter</button>
+        <button *ngIf="isLoggedIn()" class="btn btn-danger" (click)="desagreeMaterial(material._id)">Refuser</button>
       </td>
     </tr>
   </tbody>
