@@ -1,0 +1,29 @@
+<div class = "header-list">
+    <h2>Liste des materiaux</h2>
+    <button class="btn btn-primary" (click)="addMaterial()">Add Materiel</button>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Status</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let material of materials">
+      <td>{{ material._id }}</td>
+      <td>{{ material.name }}</td>
+      <td>{{ material.status }}</td>
+      <td>{{ material.type }}</td>
+      <td>
+        <button *ngIf="isLoggedIn() && isAdmin()" class="btn btn-danger" (click)="deleteMaterial(material._id)">Supprimer</button>
+        <button *ngIf="isLoggedIn() && isAdmin()" class="btn btn-primary" (click)="updateMaterial(material._id)">Modifier</button>
+        <button *ngIf="isLoggedIn() && !isAdmin() && getStatus(material._id)=='false'" class="btn btn-primary" (click)="getStatus(material._id)">Demander</button>
+        <button *ngIf="isLoggedIn() && !isAdmin() && getStatus(material._id)=='requested'" class="btn btn-primary">En attente</button>
+        <button *ngIf="isLoggedIn() && !isAdmin() && getStatus(material._id)=='true'" class="btn btn-primary" (click)="getStatus(material._id)">Annuler</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

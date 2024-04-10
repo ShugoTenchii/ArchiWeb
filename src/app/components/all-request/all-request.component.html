@@ -1,0 +1,28 @@
+<div class = "header-list">
+    <h2>Liste des requetes</h2>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Type</th>
+      <th>User</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let material of materials">
+      <td>{{ material._id }}</td>
+      <td>{{ material.name }}</td>
+      <td>{{ material.type }}</td>
+      <td>{{ material.assigned_to }}</td>
+      <td>{{ material.status }}</td>
+      <td>
+        <button *ngIf="isLoggedIn()" class="btn btn-danger" (click)="agreeMaterial(material._id)">Accepter</button>
+        <button *ngIf="isLoggedIn()" class="btn btn-primary" (click)="desagreeMaterial(material._id)">Refuser</button>
+        <button *ngIf="isLoggedIn()" class="btn btn-danger" (click)="agreeMaterial(material._id)">Accepter</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

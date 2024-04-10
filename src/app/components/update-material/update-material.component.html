@@ -1,0 +1,34 @@
+<div class="container">
+    <h2>Modifier Matériel</h2>
+    <form (ngSubmit)="updateMaterial()" #materialForm="ngForm">
+        <div class="form-group">
+            <label for="name">Nom</label>
+            <input type="text" class="form-control" id="name" name="name" [(ngModel)]="material.name" required>
+        </div>
+        <div class="form-group">
+            <label for="type">Type</label>
+            <input type="text" class="form-control" id="type" name="type" [(ngModel)]="material.type" required>
+        </div>
+        <div class="form-group">
+            <label for="assigned_to">Assigné à</label>
+            <select class="form-control" id="assigned_to" name="assigned_to" [(ngModel)]="material.assigned_to"
+                required>
+                <option *ngFor="let user of users" [ngValue]="user.email">{{ user.email }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="status">Statut</label>
+            <select class="form-control" id="status" name="status" [(ngModel)]="material.status" required>
+                <option value="true">True</option>
+                <option value="false">False</option>
+                <option value="return">return</option>
+                <option value="requested">requested</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="room">Pièce</label>
+            <input type="text" class="form-control" id="room" name="room" [(ngModel)]="material.room" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </form>
+</div>
