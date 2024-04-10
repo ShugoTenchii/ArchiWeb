@@ -96,7 +96,7 @@ export class MaterialService {
       room: material.room,
       status: "return",
     }).toString();
-    const url = `${this.baseUrl}/materials/stop/${material._id}?${queryParams}`;
+    const url = `${this.baseUrl}/materials/return/${material._id}?${queryParams}`;
     return this.http.put<any>(url, {});
   }
 

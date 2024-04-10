@@ -326,7 +326,7 @@ app.get('/materials/requested', async (req, res) => {
         const database = client.db('ProjectDB');
         const collection = database.collection('materiel');
         
-        const materials = await collection.find({ $or: [{ status: 'requested' }] }).toArray();
+        const materials = await collection.find({ $or: [{ status: 'requested' },{ status: 'true' }] }).toArray();
         
         res.status(200).json(materials);
     } catch (error) {
